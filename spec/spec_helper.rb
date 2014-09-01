@@ -14,10 +14,10 @@ shared_context 'integration', integration: true do
       c = LIFX::Client.lan
       begin
         c.discover! do
-          c.tags.include?('_Test') && c.lights.with_tag('_Test').count > 0
+          c.lights.count > 0
         end
       rescue LIFX::Client::DiscoveryTimeout
-        raise "Could not find any lights with tag _Test in #{c.lights.inspect}"
+        raise "Could not find any lights"
       end
       c
     end
@@ -27,7 +27,7 @@ shared_context 'integration', integration: true do
     lifx.flush
   end
 
-  let(:lights) { lifx.lights.with_tag('_Test') }
+  let(:lights) { lifx.lights.first }
   let(:light) { lights.first }
 end
 
